@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260" viewBox="0 0 960 260" role="img" aria-label="Salesforce Archaeologist">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B4C8C"/>
+      <stop offset="0.55" stop-color="#032D60"/>
+      <stop offset="1" stop-color="#00132E"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00A1E0"/>
+      <stop offset="1" stop-color="#22E3C6"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBBF24"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="260" rx="24" fill="url(#bg)"/>
+
+  <!-- archaeologist glyph: pickaxe + brush crossed -->
+  <g transform="translate(78 68)" fill="none" stroke="url(#gold)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Pickaxe handle -->
+    <path d="M20 100 L50 70" stroke-width="6"/>
+    <!-- Pickaxe head -->
+    <path d="M35 65 L55 55 L50 75 Z" fill="url(#gold)" stroke="url(#gold)" stroke-width="2"/>
+    <!-- Brush handle -->
+    <path d="M60 100 L30 70" stroke-width="5" stroke="#FBBF24"/>
+    <!-- Brush bristles -->
+    <path d="M28 68 L35 55 L42 68" fill="none" stroke="#FBBF24" stroke-width="3"/>
+    <path d="M30 70 L38 58 L46 70" fill="none" stroke="#FBBF24" stroke-width="2" stroke-opacity="0.7"/>
+    <!-- Dust particles -->
+    <circle cx="45" cy="50" r="2" fill="#FBBF24" opacity="0.6"/>
+    <circle cx="55" cy="45" r="1.5" fill="#FBBF24" opacity="0.5"/>
+    <circle cx="35" cy="48" r="1" fill="#FBBF24" opacity="0.4"/>
+  </g>
+
+  <!-- title + tagline -->
+  <text x="248" y="112" font-family="'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="40" font-weight="700" fill="#FFFFFF">Salesforce Archaeologist</text>
+  <text x="250" y="150" font-family="'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="18" fill="#BCD5F0">Engenharia reversa com loops de validação determinística — do legado ao blueprint.</text>
+
+  <!-- pills -->
+  <g font-family="'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="15" font-weight="600">
+    <rect x="250" y="176" width="110" height="30" rx="15" fill="#04203F" stroke="#22E3C6" stroke-opacity="0.55"/>
+    <text x="305" y="196" fill="#22E3C6" text-anchor="middle">4 subagentes</text>
+
+    <rect x="372" y="176" width="200" height="30" rx="15" fill="#04203F" stroke="#00A1E0" stroke-opacity="0.55"/>
+    <text x="472" y="196" fill="#7FD3F2" text-anchor="middle">Loop 100% paridade</text>
+
+    <rect x="584" y="176" width="150" height="30" rx="15" fill="#04203F" stroke="#FBBF24" stroke-opacity="0.55"/>
+    <text x="659" y="196" fill="#FDE047" text-anchor="middle">10 playbooks de análise</text>
+
+    <rect x="746" y="176" width="170" height="30" rx="15" fill="#04203F" stroke="#8AA9D6" stroke-opacity="0.45"/>
+    <text x="831" y="196" fill="#BCD5F0" text-anchor="middle">C4 + Arcfile</text>
+  </g>
+</svg>
