@@ -110,7 +110,7 @@ Depois, abra o Claude Code na pasta do projeto — a skill principal, os 4 subag
 | Caminho | O que faz | Quando carrega |
 |---|---|---|
 | `skills/sf-archaeologist/` | Skill principal + 4 subagentes (surveyor, deep-diver, auditor, architect) | Sob demanda via comandos `/` |
-| `skills/analysis-playbooks/` | 10 playbooks de análise Salesforce (apex-analyzer, flow-inspector, lwc-extractor, etc.) | Quando subagentes leem por caminho |
+| `skills/analysis-playbooks/` | 10 playbooks de análise Salesforce (apex-analyzer, flow-inspector, lwc-extractor, etc.) — `lwc-extractor` inclui `scripts/lwc-apex-callgraph.mjs`, extração determinística do call-graph LWC→Apex | Quando subagentes leem por caminho |
 | `rules/salesforce-standards.md` | Fonte de verdade única (14 seções: taxonomia, limits, fflib, execução, LWC, Flow, security, anti-patterns, Well-Architected, etc.) | Início da sessão (sempre válida) |
 | `commands/` | 3 comandos slash: `/archaeologist survey`, `/archaeologist dig <alvo>`, `/archaeologist model <jornada>` | Quando você digita |
 
@@ -148,6 +148,9 @@ Automático após Fase 2. `@sf-auditor` executa contagens exatas via `rg`/`find`
 - Triggers/Flows/LWC→Apex: 100% mapeados
 - **Well-Architected Check**: Trusted/Easy/Adaptable
 Se `REJECTED`: retorna `missing_artifacts` + `instructions_to_deep_diver` → reexecuta Fase 2. Loop até `VERIFIED_100_PERCENT` (máx 5 iterações).
+A partir da 2ª iteração, `scripts/audit-cache.mjs` (hash sha256 por arquivo) escopa `rg`/`find`
+só ao delta desde a última rodada — iterações seguintes reaproveitam os contadores já
+validados em vez de reprocessar `force-app/` inteiro.
 
 #### Fase 4: Model — Síntese C4 & Arcfile (`/archaeologist model <jornada>`)
 Pré-condição: documento com `VERIFIED_100_PERCENT`. `@sf-architect` gera 3 diagramas Arcfile:
@@ -269,6 +272,7 @@ Esta skill passou por 6 ciclos de verificação com subagentes paralelos:
 | 4 | Conteúdo profundo | Todos 5 arquivos: Missão, Integração, Standards, Source Linkage |
 | 5 | Playbooks de análise | Todas 10 com SKILL.md, Interface, Entrada/Saída JSON |
 | 6 | Comandos slash | Todos 3 com description + argument-hint |
+| 7 | Scripts determinísticos | `lwc-apex-callgraph.mjs` (call-graph LWC→Apex) e `audit-cache.mjs` (cache incremental do Audit Loop), cada um com selftest fail-closed contra fixture de verdade conhecida |
 
 ---
 

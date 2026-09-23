@@ -26,6 +26,19 @@ Analisar componentes Lightning Web Components para mapear pontos de entrada da U
 - Parâmetros: Serialização automática (primitivos, sObjects, coleções)
 - Retorno: Tipado via TypeScript/JSDoc
 
+**Extração determinística (preferida a leitura manual):** `scripts/lwc-apex-callgraph.mjs`
+varre `.js` do escopo e extrai, por regex sobre a sintaxe fixa do LWC (sem LLM, sem
+dependência externa), todo import `@salesforce/apex/...` classificado em `wire` |
+`imperative` | `imported_unused`, com `arquivo:linha` pronto para o Source Linkage:
+```bash
+node .claude/skills/analysis-playbooks/lwc-extractor/scripts/lwc-apex-callgraph.mjs \
+  force-app/main/default/lwc/propostaWizard
+```
+Isso cobre só o que é determinável por sintaxe (método, tipo de chamada, linha) — semântica
+de negócio (`params`, `error_handling`, `called_from`) continua exigindo a leitura abaixo.
+Validado por `selftest/verify-callgraph.mjs` contra fixture de verdade conhecida; rode antes
+de confiar no resultado se o script for alterado.
+
 ### 3. Wire Adapters Nativos
 | Adapter | Uso | Reativo |
 |---------|-----|---------|

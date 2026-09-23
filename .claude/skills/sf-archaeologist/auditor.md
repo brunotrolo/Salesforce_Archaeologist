@@ -236,6 +236,31 @@ rg "actionType.*ExternalService" force-app/main/default/flows --type xml -l | wc
   - Recomendação de intervenção humana
   - Status parcial do que foi validado
 
+## Execução Incremental (Iterações ≥ 2) — `scripts/audit-cache.mjs`
+A Iteração 1 sempre roda as Seções 1-10 no escopo completo (`force-app/main/default`) e
+grava o resultado como baseline. A partir da Iteração 2, antes de reexecutar `rg`/`find`,
+rode:
+```bash
+node .claude/skills/sf-archaeologist/scripts/audit-cache.mjs diff force-app/main/default \
+  docs/archaeologist/.audit-cache.json
+```
+Isso retorna `{ added, changed, removed, unchanged }` (paths relativos, hash sha256 de
+conteúdo). Escope as buscas de `rg`/`find` das Seções 1-10 só a `added + changed` — os
+contadores de `unchanged` são os já validados na iteração anterior, reaproveitados sem
+reprocessar. Para arquivo em `removed`, subtraia o que ele contribuía do contador anterior
+e marque a doc correspondente como órfã (mesmo tratamento de `missing_artifacts`).
+Ao final da iteração (antes de decidir `REJECTED`/`VERIFIED_100_PERCENT`), grave o novo
+snapshot:
+```bash
+node .claude/skills/sf-archaeologist/scripts/audit-cache.mjs commit force-app/main/default \
+  docs/archaeologist/.audit-cache.json
+```
+**Nunca pule o `diff`/`commit` para "economizar tempo"** — reaproveitar `unchanged` sem
+antes confirmar contra o hash atual reintroduz exatamente a alucinação que este subagente
+existe para eliminar. Validado por `selftest/verify-audit-cache.mjs` contra fixture de
+verdade conhecida (added/changed/removed/unchanged); rode antes de confiar no resultado se
+o script for alterado.
+
 ## Integração com Playbooks
 Acionar obrigatoriamente:
 - **well-architected-checker**: Para scoring automático dos 3 pilares

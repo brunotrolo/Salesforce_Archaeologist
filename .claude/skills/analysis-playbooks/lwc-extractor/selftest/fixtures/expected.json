@@ -1,0 +1,25 @@
+{
+  "components": [
+    {
+      "component": "testWizard",
+      "file": "testWizard/testWizard.js",
+      "apex_calls": [
+        {
+          "method": "PropostaController.getPropostasByAccount",
+          "type": "wire",
+          "line": 10
+        },
+        {
+          "method": "PropostaController.iniciarOnboarding",
+          "type": "imperative",
+          "line": 14
+        },
+        {
+          "method": "PropostaController.metodoNuncaUsado",
+          "type": "imported_unused",
+          "line": 5
+        }
+      ]
+    }
+  ]
+}

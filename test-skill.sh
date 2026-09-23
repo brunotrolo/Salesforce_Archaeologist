@@ -57,6 +57,31 @@ for skill in "${OFFICIAL_SKILLS[@]}"; do
     fi
 done
 
+# Verificar scripts determinísticos + selftests fail-closed
+echo ""
+echo "Verificando scripts determinísticos..."
+for file in \
+    ".claude/skills/analysis-playbooks/lwc-extractor/scripts/lwc-apex-callgraph.mjs" \
+    ".claude/skills/analysis-playbooks/lwc-extractor/selftest/verify-callgraph.mjs" \
+    ".claude/skills/sf-archaeologist/scripts/audit-cache.mjs" \
+    ".claude/skills/sf-archaeologist/selftest/verify-audit-cache.mjs"; do
+    if [ -f "$file" ]; then
+        echo "  OK $file"
+    else
+        echo "  FALTANDO $file"
+        exit 1
+    fi
+done
+
+if command -v node >/dev/null 2>&1; then
+    echo "  Rodando selftest lwc-apex-callgraph..."
+    node .claude/skills/analysis-playbooks/lwc-extractor/selftest/verify-callgraph.mjs || exit 1
+    echo "  Rodando selftest audit-cache..."
+    node .claude/skills/sf-archaeologist/selftest/verify-audit-cache.mjs || exit 1
+else
+    echo "  AVISO: node não encontrado, pulando selftests (rode manualmente antes de confiar nos scripts)"
+fi
+
 # Verificar comandos slash
 echo ""
 echo "Verificando comandos slash..."
