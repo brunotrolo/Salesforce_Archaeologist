@@ -1,13 +1,9 @@
 ---
 name: salesforce-metadata-cataloger
 description: Playbook de análise Salesforce para catálogo preciso de metadados: classificação de versões de API, tipos de componente, dependências, status de deployment, distinção legados vs modernos. Use SEMPRE na fase de survey para inventário exato.
-tools:
-  - read_file
-  - search_files
-  - run_command
 ---
 
-# Salesforce Official Skill: Salesforce Metadata Cataloger
+# Playbook de Análise: Salesforce Metadata Cataloger
 
 ## Missão
 Classificar e catalogar 100% dos metadados Salesforce no formato Source (SFDX) com precisão de versão, tipo, status e dependências.

@@ -1,13 +1,9 @@
 ---
 name: apex-analyzer
 description: Playbook de análise Salesforce para análise profunda de código Apex: detecção de antipatterns, governor limits, SOQL/DML em loops, hardcoded IDs, cobertura de testes, padrões fflib. Use SEMPRE que precisar dissecar corpo de métodos Apex, identificar vulnerabilidades ou avaliar qualidade de código.
-tools:
-  - read_file
-  - search_files
-  - run_command
 ---
 
-# Salesforce Official Skill: Apex Analyzer
+# Playbook de Análise: Apex Analyzer
 
 ## Missão
 Fornecer análise estática especializada de código Apex com conhecimento profundo de runtime Salesforce, governor limits e padrões enterprise (fflib).

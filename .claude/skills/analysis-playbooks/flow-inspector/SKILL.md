@@ -1,13 +1,9 @@
 ---
 name: flow-inspector
 description: Playbook de análise Salesforce para inspeção profunda de Flows: decifrar XML complexo de FlowDefinition/Flow Metadata, traduzir nós de decisão, loops, subflows, @InvocableMethod calls, mapear conflitos de ordem de execução. Use SEMPRE que precisar analisar automações declarativas.
-tools:
-  - read_file
-  - search_files
-  - run_command
 ---
 
-# Salesforce Official Skill: Flow Inspector
+# Playbook de Análise: Flow Inspector
 
 ## Missão
 Decifrar metadados XML de Flows (FlowDefinitionView + Flow Metadata) e traduzir em regras de negócio legíveis, identificando conflitos de execução e dependências.

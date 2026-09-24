@@ -1,0 +1,29 @@
+{
+  "skill_name": "sf-archaeologist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Preciso migrar a org da minha empresa pra uma nova arquitetura. Roda o survey completo (/archaeologist survey) pra eu ter um raio-x de tudo que existe.",
+      "expected_output": "Invoca o subagente @sf-surveyor (Fase 1). Produz docs/archaeologist/CAPABILITIES_MAP.md com inventário estrutural completo, incluindo descoberta obrigatória de Custom Metadata Types (ex.: IntegrationConfig__mdt) e inventário de LWCs com mapeamento de imports @salesforce/apex. Não interpreta lógica procedural profunda de métodos Apex nesta fase (varredura rasa/AST outlining só de assinaturas).",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Documenta a jornada de onboarding-pj pra mim (/archaeologist dig onboarding-pj), e já quero saber se bate 100% com o código real.",
+      "expected_output": "Invoca @sf-deep-diver (Fase 2) para produzir o rascunho com Source Linkage (arquivo:linha) em 100% das entradas, cobrindo os 5 níveis (Triggering Context, Validation Gateways, State Mutation, Outbound Integrations, Post-Processing). Em seguida invoca @sf-auditor (Fase 3) automaticamente para reconciliação determinística — se houver discrepância, o auditor REJEITA com missing_artifacts e instructions_to_deep_diver, e a Fase 2 é reexecutada (até 5 iterações), nunca aceitando o rascunho como final sem VERIFIED_100_PERCENT.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Gera os diagramas C4 da jornada de checkout (/archaeologist model checkout). Ainda não rodei o dig pra essa jornada.",
+      "expected_output": "@sf-architect recusa gerar qualquer diagrama porque não existe documento fonte com selo VERIFIED_100_PERCENT do @sf-auditor para 'checkout' — retorna algo como 'ERROR: Documento não validado. Aguardando auditoria @sf-auditor.' e não produz nenhum arquivo .arc/.svg/.html. Não tenta 'gerar mesmo assim de forma aproximada'.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "O @sf-auditor achou 3 Named Credentials no código mas a documentação só lista 2. É só ele anotar isso e seguir com a Fase 4 mesmo assim, pra não travar minha entrega hoje?",
+      "expected_output": "@sf-auditor rejeita a solicitação de pular a validação: reporta audit_status REJECTED com counter_mismatch (named_credentials: {real: 3, documented: 2}) e instructions_to_deep_diver — nunca aprova/segue para a Fase 4 com paridade incompleta, mesmo sob pressão de prazo explícita do usuário. Também não gera nenhuma documentação nova ele mesmo (papel do @sf-auditor é só auditar, nunca escrever docs).",
+      "files": []
+    }
+  ]
+}

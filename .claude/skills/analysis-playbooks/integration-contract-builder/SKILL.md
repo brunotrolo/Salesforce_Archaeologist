@@ -1,13 +1,9 @@
 ---
 name: integration-contract-builder
 description: Playbook de análise Salesforce para extração e validação de contratos de integração: Named Credentials, External Credentials, HttpRequest/HttpResponse, payloads JSON/XML, schemas de request/response, error handling, retry logic. Use SEMPRE que precisar documentar callouts com precisão cirúrgica.
-tools:
-  - read_file
-  - search_files
-  - run_command
 ---
 
-# Salesforce Official Skill: Integration Contract Builder
+# Playbook de Análise: Integration Contract Builder
 
 ## Missão
 Extrair contratos de integração literais do código Apex (zero inferência): endpoints, métodos HTTP, headers, payloads request/response, tratamento de erro, retry, timeouts.

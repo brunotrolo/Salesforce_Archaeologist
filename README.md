@@ -7,7 +7,8 @@
 <p align="center">
   <img src="https://img.shields.io/github/stars/brunotrolo/Salesforce_Archaeologist?style=flat-square&color=00A1E0&label=stars" alt="Stars">
   <img src="https://img.shields.io/badge/subagentes-4-04E1C2?style=flat-square" alt="4 subagentes">
-  <img src="https://img.shields.io/badge/skills%20oficiais-10-032D60?style=flat-square" alt="10 playbooks de análise">
+  <img src="https://img.shields.io/badge/playbooks%20de%20an%C3%A1lise-10-032D60?style=flat-square" alt="10 playbooks de análise">
+  <img src="https://img.shields.io/badge/license-MIT-032D60?style=flat-square" alt="MIT License">
   <img src="https://img.shields.io/badge/works%20with-Claude%20Code-032D60?style=flat-square" alt="Works with Claude Code">
 </p>
 
@@ -18,6 +19,8 @@ O **Salesforce Archaeologist** opera como um sistema multiagente autônomo e ite
 ---
 
 ## Arquitetura de Subagentes
+
+Os 4 subagentes abaixo são subagentes reais do Claude Code (`.claude/agents/sf-{surveyor,deep-diver,auditor,architect}.md`, invocados via Task) — não texto estático lido pelo orquestrador.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -50,7 +53,7 @@ O **Salesforce Archaeologist** opera como um sistema multiagente autônomo e ite
 
 ## Playbooks de Análise Integrados
 
-O framework consome **10 playbooks de análise** especializadas (baseadas no ecossistema `forcedotcom/sf-skills`):
+O framework consome **10 playbooks de análise** originais, escritas para este projeto:
 
 | Skill | Propósito no Pipeline |
 |-------|----------------------|
@@ -97,11 +100,13 @@ cd Salesforce_Archaeologist
 # De dentro da pasta do seu projeto SFDX
 cp -r /path/to/Salesforce_Archaeologist/.claude/skills/sf-archaeologist .claude/skills/
 cp -r /path/to/Salesforce_Archaeologist/.claude/skills/analysis-playbooks .claude/skills/
+cp -r /path/to/Salesforce_Archaeologist/.claude/agents/* .claude/agents/
 cp /path/to/Salesforce_Archaeologist/.claude/rules/salesforce-standards.md .claude/rules/
+cp /path/to/Salesforce_Archaeologist/.claude/rules/karpathy-guidelines.md .claude/rules/
 cp -r /path/to/Salesforce_Archaeologist/.claude/commands/* .claude/commands/
 ```
 
-Depois, abra o Claude Code na pasta do projeto — a skill principal, os 4 subagentes, as 10 playbooks de análise, as rules e os 3 comandos `/` carregam automaticamente.
+Depois, abra o Claude Code na pasta do projeto — a skill principal, os 4 subagentes (Task-invokable, em `.claude/agents/`), as 10 playbooks de análise, as rules e os 3 comandos `/` carregam automaticamente.
 
 ---
 
@@ -109,10 +114,17 @@ Depois, abra o Claude Code na pasta do projeto — a skill principal, os 4 subag
 
 | Caminho | O que faz | Quando carrega |
 |---|---|---|
-| `skills/sf-archaeologist/` | Skill principal + 4 subagentes (surveyor, deep-diver, auditor, architect) | Sob demanda via comandos `/` |
+| `skills/sf-archaeologist/` | Skill orquestradora — protocolo de 4 fases, `scripts/audit-cache.mjs`, `evaluations/evals.json` | Sob demanda via comandos `/` |
+| `agents/` | Os **4 subagentes reais** (Task-invokable): `sf-surveyor`, `sf-deep-diver`, `sf-auditor`, `sf-architect` — cada um com frontmatter `name`+`description` válida | Invocados via Task pelo orquestrador |
 | `skills/analysis-playbooks/` | 10 playbooks de análise Salesforce (apex-analyzer, flow-inspector, lwc-extractor, etc.) — `lwc-extractor` inclui `scripts/lwc-apex-callgraph.mjs`, extração determinística do call-graph LWC→Apex | Quando subagentes leem por caminho |
-| `rules/salesforce-standards.md` | Fonte de verdade única (14 seções: taxonomia, limits, fflib, execução, LWC, Flow, security, anti-patterns, Well-Architected, etc.) | Início da sessão (sempre válida) |
+| `rules/salesforce-standards.md` | Fonte de verdade única (18 seções: taxonomia, limits, fflib, execução, LWC, Flow, security, anti-patterns, Well-Architected, metadata-driven, etc.) | Início da sessão (sempre válida) |
+| `rules/karpathy-guidelines.md` | Disciplina comportamental (MIT) — pense antes de codar, simplicidade, mudanças cirúrgicas, execução orientada a objetivo | Início da sessão (sempre válida) |
 | `commands/` | 3 comandos slash: `/archaeologist survey`, `/archaeologist dig <alvo>`, `/archaeologist model <jornada>` | Quando você digita |
+
+Na raiz do repositório (não copiado para o seu projeto — são documentação de
+quem desenvolve *esta* skill): `AGENTS.md` (regras vendor-neutras), `CLAUDE.md`
+(ponteiro específico do Claude Code), `LICENSE` (MIT), `test-skill.sh`
+(validação estrutural + selftests, rodar antes de qualquer PR).
 
 ### Comandos
 
@@ -250,7 +262,10 @@ Uma análise só é "concluída" quando `@sf-auditor` reporta `VERIFIED_100_PERC
 
 ## Sobre as 10 playbooks de análise — resumo
 
-Todas vêm do ecossistema Salesforce (`forcedotcom/sf-skills`, Apache-2.0):
+São 10 playbooks de análise **originais**, escritos para este projeto — nenhuma
+é uma redistribuição de um pacote oficial da Salesforce ou de terceiros
+(nenhum dos 10 nomes existe no repositório real `forcedotcom/sf-skills`; uma
+versão anterior deste README afirmava o contrário por engano e foi corrigida):
 
 - **6 de análise**: `apex-analyzer`, `flow-inspector`, `lwc-extractor`, `integration-contract-builder`, `well-architected-checker`, `apex-governor-limits-validator`
 - **2 de catalogação**: `salesforce-metadata-cataloger`, `flow-surveyor`
@@ -273,6 +288,7 @@ Esta skill passou por 6 ciclos de verificação com subagentes paralelos:
 | 5 | Playbooks de análise | Todas 10 com SKILL.md, Interface, Entrada/Saída JSON |
 | 6 | Comandos slash | Todos 3 com description + argument-hint |
 | 7 | Scripts determinísticos | `lwc-apex-callgraph.mjs` (call-graph LWC→Apex) e `audit-cache.mjs` (cache incremental do Audit Loop), cada um com selftest fail-closed contra fixture de verdade conhecida |
+| 8 | Conformidade estrutural Anthropic | Corrigido campo `tools:` inválido (era ignorado silenciosamente) em 11/11 `SKILL.md` — o campo correto para Skills é `allowed-tools`, `tools:` é campo de subagente. Os 4 "subagentes" viviam sem frontmatter dentro de `.claude/skills/sf-archaeologist/` (inertes como subagentes reais); movidos para `.claude/agents/*.md` com `name`+`description` válidos. Corrigida atribuição residual "forcedotcom/sf-skills, Apache-2.0" que uma rodada anterior já tinha corrigido em outros arquivos mas não neste README. Adicionados `AGENTS.md`, `CLAUDE.md`, `LICENSE` (MIT), `.gitignore` e `evaluations/evals.json` da skill principal (4 cenários de regressão comportamental) |
 
 ---
 

@@ -1,13 +1,9 @@
 ---
 name: arcfile-generator
 description: Playbook de análise Salesforce para geração e validação de diagramas Arcfile (Archify): sequence diagrams, ERDs, architecture diagrams. Compilação, exportação SVG/PNG/HTML/WebM. Use SEMPRE na Fase 4 para renderização visual validada.
-tools:
-  - read_file
-  - write_file
-  - run_command
 ---
 
-# Salesforce Official Skill: Arcfile Generator
+# Playbook de Análise: Arcfile Generator
 
 ## Missão
 Compilar, validar e exportar especificações Arcfile (.arc) em diagramas visuais profissionais (SVG, PNG, HTML interativo, WebM animation).

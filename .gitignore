@@ -1,0 +1,13 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Node (scripts/ are dependency-free, but keep this if that ever changes)
+node_modules/
+
+# Runtime output of this skill when pointed at a real org — never versioned
+# in the template repo itself
+docs/archaeologist/

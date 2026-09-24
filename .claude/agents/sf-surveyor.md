@@ -1,3 +1,9 @@
+---
+name: sf-surveyor
+description: Fase 1 (Survey) do pipeline sf-archaeologist: reconhecimento raso (KDM/AST outlining) de 100% da árvore de metadados Salesforce no formato Source, incluindo Custom Metadata Types e LWCs, sem interpretar lógica procedural profunda. Use para gerar o inventário estrutural inicial (docs/archaeologist/CAPABILITIES_MAP.md) antes de qualquer deep dive.
+tools: Read, Grep, Glob, Bash, Write
+---
+
 # Subagente: @sf-surveyor (KDM & AST Extraction + Custom Metadata Discovery)
 
 ## Missão

@@ -7,6 +7,7 @@ set -e
 
 ORG_ALIAS="<seu-org-alias>"
 SKILL_ROOT=".claude/skills/sf-archaeologist"
+AGENTS_ROOT=".claude/agents"
 DOCS_ROOT="docs/archaeologist"
 
 echo "=============================================="
@@ -19,11 +20,15 @@ echo ""
 echo "Verificando estrutura da skill..."
 for file in \
     "$SKILL_ROOT/SKILL.md" \
-    "$SKILL_ROOT/surveyor.md" \
-    "$SKILL_ROOT/deep-diver.md" \
-    "$SKILL_ROOT/auditor.md" \
-    "$SKILL_ROOT/architect.md" \
-    ".claude/rules/salesforce-standards.md"; do
+    "$AGENTS_ROOT/sf-surveyor.md" \
+    "$AGENTS_ROOT/sf-deep-diver.md" \
+    "$AGENTS_ROOT/sf-auditor.md" \
+    "$AGENTS_ROOT/sf-architect.md" \
+    ".claude/rules/salesforce-standards.md" \
+    ".claude/skills/sf-archaeologist/evaluations/evals.json" \
+    "CLAUDE.md" \
+    "AGENTS.md" \
+    "LICENSE"; do
     if [ -f "$file" ]; then
         echo "  OK $file"
     else
@@ -188,10 +193,10 @@ else
 fi
 
 # Verificar se subagentes referenciam playbooks
-if grep -q "salesforce-metadata-cataloger" "$SKILL_ROOT/surveyor.md" && \
-   grep -q "apex-analyzer" "$SKILL_ROOT/deep-diver.md" && \
-   grep -q "well-architected-checker" "$SKILL_ROOT/auditor.md" && \
-   grep -q "arcfile-generator" "$SKILL_ROOT/architect.md"; then
+if grep -q "salesforce-metadata-cataloger" "$AGENTS_ROOT/sf-surveyor.md" && \
+   grep -q "apex-analyzer" "$AGENTS_ROOT/sf-deep-diver.md" && \
+   grep -q "well-architected-checker" "$AGENTS_ROOT/sf-auditor.md" && \
+   grep -q "arcfile-generator" "$AGENTS_ROOT/sf-architect.md"; then
     echo "  OK Subagentes referenciam playbooks corretos"
 else
     echo "  FALHA Referencias a playbooks incompletas"
@@ -199,9 +204,9 @@ fi
 
 # Verificar Source Linkage padrao
 if grep -q "Source Linkage" "$SKILL_ROOT/SKILL.md" && \
-   grep -q "Source Linkage" "$SKILL_ROOT/deep-diver.md" && \
-   grep -q "Source Linkage" "$SKILL_ROOT/auditor.md" && \
-   grep -q "Source Linkage" "$SKILL_ROOT/architect.md"; then
+   grep -q "Source Linkage" "$AGENTS_ROOT/sf-deep-diver.md" && \
+   grep -q "Source Linkage" "$AGENTS_ROOT/sf-auditor.md" && \
+   grep -q "Source Linkage" "$AGENTS_ROOT/sf-architect.md"; then
     echo "  OK Source Linkage padronizado em todos os subagentes"
 else
     echo "  FALHA Source Linkage nao padronizado"
@@ -209,13 +214,48 @@ fi
 
 # Verificar salesforce-standards.md referenciado
 if grep -q "salesforce-standards.md" "$SKILL_ROOT/SKILL.md" && \
-   grep -q "salesforce-standards.md" "$SKILL_ROOT/surveyor.md" && \
-   grep -q "salesforce-standards.md" "$SKILL_ROOT/deep-diver.md" && \
-   grep -q "salesforce-standards.md" "$SKILL_ROOT/auditor.md" && \
-   grep -q "salesforce-standards.md" "$SKILL_ROOT/architect.md"; then
+   grep -q "salesforce-standards.md" "$AGENTS_ROOT/sf-surveyor.md" && \
+   grep -q "salesforce-standards.md" "$AGENTS_ROOT/sf-deep-diver.md" && \
+   grep -q "salesforce-standards.md" "$AGENTS_ROOT/sf-auditor.md" && \
+   grep -q "salesforce-standards.md" "$AGENTS_ROOT/sf-architect.md"; then
     echo "  OK salesforce-standards.md referenciado em todos os arquivos"
 else
     echo "  FALHA salesforce-standards.md nao referenciado em todos"
+fi
+
+# Verificar que os 4 subagentes tem frontmatter valido (name + description)
+echo ""
+echo "Verificando frontmatter dos subagentes..."
+for agent in sf-surveyor sf-deep-diver sf-auditor sf-architect; do
+    if head -1 "$AGENTS_ROOT/$agent.md" | grep -q "^---$" && \
+       grep -q "^name: $agent$" "$AGENTS_ROOT/$agent.md" && \
+       grep -q "^description:" "$AGENTS_ROOT/$agent.md"; then
+        echo "  OK $agent.md (name + description presentes)"
+    else
+        echo "  FALHA $agent.md sem frontmatter valido"
+        exit 1
+    fi
+done
+
+# Verificar que nenhum SKILL.md usa o campo invalido "tools:" (deve ser
+# allowed-tools, ou nenhum -- tools: é campo de subagente, nao de skill)
+echo ""
+echo "Verificando frontmatter dos SKILL.md (sem campo 'tools:' invalido)..."
+if grep -rl "^tools:" .claude/skills --include="SKILL.md" >/dev/null 2>&1; then
+    echo "  FALHA algum SKILL.md ainda usa o campo 'tools:' (invalido para Skills)"
+    exit 1
+else
+    echo "  OK nenhum SKILL.md usa 'tools:' invalido"
+fi
+
+# Validar evaluations/evals.json
+echo ""
+echo "Verificando evaluations/evals.json..."
+if python3 -c "import json; json.load(open('.claude/skills/sf-archaeologist/evaluations/evals.json'))" 2>/dev/null; then
+    echo "  OK evaluations/evals.json é JSON válido"
+else
+    echo "  FALHA evaluations/evals.json ausente ou invalido"
+    exit 1
 fi
 
 echo ""

@@ -1,13 +1,9 @@
 ---
 name: c4-modeler
 description: Playbook de análise Salesforce para modelagem C4 (Context, Containers, Components, Code) aplicada a Salesforce: mapeamento de orgs como sistemas, containers (managed packages, external systems), components (Apex, Flow, LWC), código. Validação de conformidade com notação Simon Brown. Use SEMPRE na Fase 4 para arquitetura de referência.
-tools:
-  - read_file
-  - write_file
-  - run_command
 ---
 
-# Salesforce Official Skill: C4 Modeler
+# Playbook de Análise: C4 Modeler
 
 ## Missão
 Traduzir arquitetura Salesforce validada para notação C4 Model (Simon Brown), gerando diagramas de Contexto (C1), Containers (C2), Componentes (C3) e Código (C4) com terminologia Salesforce.

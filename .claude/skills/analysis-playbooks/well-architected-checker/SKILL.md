@@ -1,13 +1,9 @@
 ---
 name: well-architected-checker
 description: Playbook de análise Salesforce para avaliação de conformidade com Well-Architected Framework (Trusted, Easy, Adaptable). Scoring automatizado, detecção de violações, recomendações de modernização. Use SEMPRE que precisar auditar qualidade arquitetural e débito técnico.
-tools:
-  - read_file
-  - search_files
-  - run_command
 ---
 
-# Salesforce Official Skill: Well-Architected Checker
+# Playbook de Análise: Well-Architected Checker
 
 ## Missão
 Avaliar código e configuração Salesforce contra os 3 pilares do Well-Architected Framework, fornecendo scoring quantitativo e recomendações acionáveis.
