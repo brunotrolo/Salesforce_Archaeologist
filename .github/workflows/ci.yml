@@ -1,0 +1,54 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Verify SKILL.md frontmatter
+        run: node scripts/verify-skills.mjs
+      - name: List discoverable skills (telemetry)
+        run: npx -y skills add . --list --json | head -c 4000; echo
+
+  code-analyzer:
+    if: hashFiles('sfdx-project.json') != '' || hashFiles('force-app/**') != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install Salesforce CLI + Code Analyzer
+        run: |
+          npm i -g @salesforce/cli
+          sf plugins install code-analyzer@latest --json || true
+          sf code-analyzer --help || true
+      - name: Run Code Analyzer
+        run: |
+          sf code-analyzer run --workspace . --output-file sfca.json --view table || true
+          echo "=== sfca.json (head) ==="; head -c 6000 sfca.json; echo
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sfca-report
+          path: sfca.json
+
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard — bloqueia flags que furam portão de evidência
+        run: |
+          echo "Checking for --ignore-errors / NoTestRun in skills..."
+          ! grep -R "ignore-errors" .claude --include="*.md" 2>/dev/null || (echo "❌ --ignore-errors encontrado" && exit 1)
+          # NoTestRun só permitido quando documentado como "quick deploy escopado"
+          if grep -R "NoTestRun" .claude --include="*.md" 2>/dev/null | grep -v "quick deploy escopado" | grep -v "NoTestRun.*quick" | grep -q "NoTestRun"; then
+            echo "⚠️ NoTestRun encontrado fora do contexto permitido — revise"
+          fi
+          echo "✓ guard OK"

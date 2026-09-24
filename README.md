@@ -1,6 +1,7 @@
 # Salesforce Archaeologist
 
 <p align="center">
+
   <img src="assets/banner.svg" width="960" alt="Salesforce Archaeologist">
 </p>
 
@@ -10,6 +11,10 @@
   <img src="https://img.shields.io/badge/playbooks%20de%20an%C3%A1lise-10-032D60?style=flat-square" alt="10 playbooks de análise">
   <img src="https://img.shields.io/badge/license-MIT-032D60?style=flat-square" alt="MIT License">
   <img src="https://img.shields.io/badge/works%20with-Claude%20Code-032D60?style=flat-square" alt="Works with Claude Code">
+</p>
+
+<p align="center">
+  [![skills.sh](https://skills.sh/b/brunotrolo/Salesforce_Archaeologist)](https://skills.sh/brunotrolo/Salesforce_Archaeologist) [![CI](https://github.com/brunotrolo/Salesforce_Archaeologist/actions/workflows/ci.yml/badge.svg)](https://github.com/brunotrolo/Salesforce_Archaeologist/actions)
 </p>
 
 Framework agnóstico de **engenharia reversa**, **assessment arquitetural** e **extração de regras de negócio** em Salesforce para subsidiar migrações e refatorações seguras.
