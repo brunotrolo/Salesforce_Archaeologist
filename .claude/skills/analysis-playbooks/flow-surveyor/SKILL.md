@@ -1,6 +1,6 @@
 ---
 name: flow-surveyor
-description: Playbook de análise Salesforce para survey rápido de Flows: extração de FlowDefinitionView, status ativo/obsoleto, tipo de flow, objeto gatilho, trigger type, contagem de elementos. Use SEMPRE na fase de survey para inventário de automações sem ler XML completo.
+description: "Playbook de análise Salesforce para survey rápido de Flows: extração de FlowDefinitionView, status ativo/obsoleto, tipo de flow, objeto gatilho, trigger type, contagem de elementos. Use SEMPRE na fase de survey para inventário de automações sem ler XML completo."
 ---
 
 # Playbook de Análise: Flow Surveyor

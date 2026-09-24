@@ -1,6 +1,6 @@
 ---
 name: apex-governor-limits-validator
-description: Playbook de análise Salesforce para análise quantitativa de limites de governador: contagem exata de SOQL, DML, CPU, Heap, Callouts por caminho de execução. Simulação de cenários bulk. Use SEMPRE que precisar validar se código escala para volumes de produção.
+description: "Playbook de análise Salesforce para análise quantitativa de limites de governador: contagem exata de SOQL, DML, CPU, Heap, Callouts por caminho de execução. Simulação de cenários bulk. Use SEMPRE que precisar validar se código escala para volumes de produção."
 ---
 
 # Playbook de Análise: Apex Governor Limits Validator

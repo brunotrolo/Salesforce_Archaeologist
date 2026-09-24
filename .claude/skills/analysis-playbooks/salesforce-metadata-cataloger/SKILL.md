@@ -1,6 +1,6 @@
 ---
 name: salesforce-metadata-cataloger
-description: Playbook de análise Salesforce para catálogo preciso de metadados: classificação de versões de API, tipos de componente, dependências, status de deployment, distinção legados vs modernos. Use SEMPRE na fase de survey para inventário exato.
+description: "Playbook de análise Salesforce para catálogo preciso de metadados: classificação de versões de API, tipos de componente, dependências, status de deployment, distinção legados vs modernos. Use SEMPRE na fase de survey para inventário exato."
 ---
 
 # Playbook de Análise: Salesforce Metadata Cataloger

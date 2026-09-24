@@ -1,6 +1,6 @@
 ---
 name: lwc-extractor
-description: Playbook de análise Salesforce para extração e análise de Lightning Web Components: decorators (@api, @wire, @track), chamadas imperativas a Apex, eventos customizados, lifecycle hooks, composição de componentes. Use SEMPRE que precisar mapear onde a jornada começa na interface do usuário.
+description: "Playbook de análise Salesforce para extração e análise de Lightning Web Components: decorators (@api, @wire, @track), chamadas imperativas a Apex, eventos customizados, lifecycle hooks, composição de componentes. Use SEMPRE que precisar mapear onde a jornada começa na interface do usuário."
 ---
 
 # Playbook de Análise: LWC Extractor
