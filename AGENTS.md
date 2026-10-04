@@ -105,6 +105,43 @@ de Análise" / "analysis playbook" instead.
 Agent, rule and skill files are written in English. `README.md` is in PT-BR
 (this project's primary audience). Talk to the user in PT-BR.
 
+## Alinhamento com o framework agentic
+
+This repo follows the agentic-engineering framework (subagent delegation,
+verification-before-done, a self-improvement loop, permission security) in
+these concrete places:
+
+- **Subagents — one well-defined task per subagent.** The 4 files in
+  `.claude/agents/` (`sf-surveyor`, `sf-deep-diver`, `sf-auditor`,
+  `sf-architect`) are a strong example of this pattern: each owns exactly one
+  phase, each has valid `name`+`description` frontmatter, and the
+  orchestrator dispatches them through Task, never by reading them as prose.
+  No subagent's job overlaps another's — survey never traces graphs, the
+  auditor never writes documentation, the architect never diagrams without
+  the auditor's seal.
+- **Verification before done.** `.claude/skills/sf-archaeologist/evaluations/evals.json`
+  encodes 4 behavioral regression scenarios (skip a phase, override a
+  rejection, draw without the `VERIFIED_100_PERCENT` precondition, treat a
+  shallow survey as if it read method bodies). `test-skill.sh` runs the
+  structural checks, both fail-closed selftests, and the evals JSON
+  validation, and must pass before any push — see **Definition of done**
+  below. A `PostToolUse` hook in `.claude/settings.json` now runs it
+  automatically whenever `SKILL.md` or a `.claude/agents/*.md` file changes,
+  so this check does not depend on remembering to run it by hand.
+- **Self-improvement / lessons loop.** `.claude/LESSONS.md` is the
+  append-only log of what went wrong in a revision and the rule that came
+  out of it — e.g. the invalid `tools:` frontmatter field, the false
+  "Salesforce Official Skill" attribution, and the inert zero-frontmatter
+  subagents, all recorded as real retroactive entries from this week's
+  revision. Add a new entry there (never edit a past one) whenever a
+  revision finds a real bug in how this repo ships, so the same mistake is
+  checked for the next time this repo is revised.
+- **Permission security.** `.claude/settings.json` denies the destructive
+  commands that have no place in a repo that never deploys anything real
+  (`rm -rf`, `git push --force`, `sf org/project/data delete`) and blocks
+  reading `.env`/`*.key` files, on top of the `PostToolUse` verification hook
+  above.
+
 ## Repository map
 
 ```

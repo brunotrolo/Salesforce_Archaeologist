@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(sf org delete *)",
+      "Bash(sf project delete *)",
+      "Bash(sf data delete *)",
+      "Read(./.env)",
+      "Read(./**/.env)",
+      "Read(./**/*.key)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{const o=JSON.parse(d||'{}');const p=(o.tool_input&&o.tool_input.file_path)||'';if(/SKILL\\.md$/.test(p)||/\\.claude\\/agents\\/[^/]+\\.md$/.test(p)){require('child_process').execSync('./test-skill.sh',{stdio:'inherit',shell:true});}}catch(e){}});\"",
+            "statusMessage": "sf-archaeologist: SKILL.md ou agente alterado, rodando test-skill.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
