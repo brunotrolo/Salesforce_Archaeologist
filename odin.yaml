@@ -5,18 +5,26 @@ dominio: salesforce
 dono: mantenedor
 descricao: Engenharia reversa de uma org Salesforce existente. Mapeia metadados e código, extrai as regras de negócio que já existem, faz o assessment de arquitetura e gera diagramas para migração ou refatoração.
 intencoes:
-  - mapear como esta org funciona hoje
-  - fazer engenharia reversa da org antes da migração
-  - extrair as regras de negócio que existem no código legado
-  - assessment de arquitetura da org atual
-  - documentar o legado para refatorar com segurança
-  - gerar diagramas C4 do que existe hoje na org
-  - levantar todas as automações e triggers existentes
-  - inventário de metadados e dependências da org
-  - texto: por que este erro acontece na trigger de caso
-    negativa: true
-  - texto: quais regras o negócio quer na nova jornada
-    negativa: true
+  - "mapear como esta org funciona hoje"
+  - "fazer engenharia reversa da org antes da migração"
+  - "extrair as regras de negócio que existem no código legado"
+  - "assessment de arquitetura da org atual"
+  - "documentar o legado para refatorar com segurança"
+  - "gerar diagramas C4 do que existe hoje na org"
+  - "levantar todas as automações e triggers existentes"
+  - "inventário de metadados e dependências da org"
+  - "quais flows e process builders ainda estão ativos"
+  - "tem muita trigger antiga, me mostra o que cada uma faz"
+  - "preciso entender essa org que herdei"
+  - "lista os objetos customizados e como se relacionam"
+  - "levanta o código Apex que ninguém mais mantém"
+  - "documenta as regras escondidas nos flows antigos"
+  - "qual o tamanho da dívida técnica dessa org"
+  - "prepara o diagnóstico da org para a migração"
+  - { texto: "por que este erro acontece na trigger de caso", negativa: true }
+  - { texto: "quais regras o negócio quer na nova jornada", negativa: true }
+  - { texto: "criar a classe de teste do serviço", negativa: true }
+  - { texto: "desenhar o modelo de dados da nova solução", negativa: true }
 perfis_sugeridos:
   - arquiteto
 proximo:
