@@ -1,0 +1,41 @@
+# Contrato da skill no Odin (schemas/odin.schema.json). Mantido neste repositório; o catálogo só lê.
+id: sf-archaeologist
+nome: Archaeologist
+dominio: salesforce
+dono: mantenedor
+descricao: Engenharia reversa de uma org Salesforce existente. Mapeia metadados e código, extrai as regras de negócio que já existem, faz o assessment de arquitetura e gera diagramas para migração ou refatoração.
+intencoes:
+  - mapear como esta org funciona hoje
+  - fazer engenharia reversa da org antes da migração
+  - extrair as regras de negócio que existem no código legado
+  - assessment de arquitetura da org atual
+  - documentar o legado para refatorar com segurança
+  - gerar diagramas C4 do que existe hoje na org
+  - levantar todas as automações e triggers existentes
+  - inventário de metadados e dependências da org
+  - texto: por que este erro acontece na trigger de caso
+    negativa: true
+  - texto: quais regras o negócio quer na nova jornada
+    negativa: true
+perfis_sugeridos:
+  - arquiteto
+proximo:
+  - sf-discovery
+  - sf-data-architect
+skills:
+  - path: .claude/skills/sf-archaeologist/SKILL.md
+agentes:
+  - .claude/agents/sf-architect.md
+  - .claude/agents/sf-auditor.md
+  - .claude/agents/sf-deep-diver.md
+  - .claude/agents/sf-surveyor.md
+regras:
+  - .claude/rules/karpathy-guidelines.md
+  - .claude/rules/salesforce-standards.md
+avaliacoes: evals/
+runtime:
+  dir: .claude/skills/sf-archaeologist/scripts
+  node: ">=20"
+  prerequisitos:
+    - node
+    - git
