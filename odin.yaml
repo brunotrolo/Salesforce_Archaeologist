@@ -40,6 +40,8 @@ agentes:
 regras:
   - .claude/rules/karpathy-guidelines.md
   - .claude/rules/salesforce-standards.md
+politicas:
+  - sf-archaeologist
 avaliacoes: evals/
 runtime:
   dir: .claude/skills/sf-archaeologist/scripts
